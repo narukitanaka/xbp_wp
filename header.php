@@ -26,20 +26,15 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap" rel="stylesheet">
 
+  <title>X Boder Project｜クロスボーダープロジェクト</title>
+  <meta name="description" content="エンタメとテクノロジーを両輪に、固定観念に囚われず、新しい発想を形にしていく。どんな空想も、現実にしてみせる。それが私たちXBP Inc.の存在理由です。" />
+  <meta name="keywords" content="" />
 
   <!-- <script>
     window.onload = function () {
       document.getElementById('loading').classList.add('hidden');
     };
-  </script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.5.1/ScrollTrigger.min.js"></script> -->
-
-
-  <title>X Boder Project｜クロスボーダープロジェクト</title>
-  <meta name="description" content="エンタメとテクノロジーを両輪に、固定観念に囚われず、新しい発想を形にしていく。どんな空想も、現実にしてみせる。それが私たちXBP Inc.の存在理由です。" />
-  <meta name="keywords" content="" />
-
+  </script> -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <?php wp_head(); ?>
@@ -48,12 +43,17 @@
 <body>
   <?php wp_body_open(); ?>
 
-  <!-- <div id="loading" class="loading-container">
-  </div> -->
+  <!-- <?php if ( is_front_page() ) : ?>
+    <div id="loading" class="loading-container">
+      <div class="cssload-container">
+        <div class="cssload-whirlpool"></div>
+      </div>
+    </div>
+  <?php endif; ?> -->
 
   <div class="wrap-hidden">
 
-    <?php if (  !is_front_page() ) : ?>
+    <?php if ( !is_front_page() ) : ?>
       <div class="transition-container">
       <div class="transition-panel panel1"></div>
       <div class="transition-panel panel2"></div>
@@ -67,7 +67,10 @@
       <div class="header-inner flex">
         <div class="logo img-box"><a href="<?php echo home_url('/'); ?>"><img src="<?php echo get_template_directory_uri(); ?>/images/common/logo.svg" alt=""></a></div>
         <div class="flex">
-          <!-- <div class="lang-wrap"></div> -->
+          <div class="lang-wrap"><?php echo do_shortcode('[bogo]'); ?></div>
+          <!-- <?php if (is_front_page() || is_page(['contact', 'policy'])) : ?>
+            <div class="lang-wrap"><?php echo do_shortcode('[bogo]'); ?></div>
+          <?php endif; ?> -->
           <div class="hamberger-wrap">
             <div class="hambager-content">
               <button type="button" class="hambager">
@@ -97,11 +100,27 @@
                   </svg>
                 </a>
                 <div class="little-nav">
-                  <div><a href="project01.html">IP再生</a></div>
-                  <div><a href="project02.html">映像作品国際共同制作</a></div>
-                  <div><a href="project03.html">新IP&アクティビティ開発</a></div>
-                  <div><a href="project04.html">パワードスーツ開発</a></div>
-                  <div><a href="project05.html">ファンド</a></div>
+
+                  <?php
+                    $args = array(
+                      'post_type' => 'project',
+                      'posts_per_page' => -1,
+                      'orderby' => 'menu_order',
+                      'order' => 'ASC'
+                    );
+                    $projects = new WP_Query($args);
+                    if ($projects->have_posts()) :
+                      while ($projects->have_posts()) : $projects->the_post();
+                  ?>
+
+                  <div><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></div>
+
+                  <?php
+                      endwhile;
+                      wp_reset_postdata();
+                  endif;
+                  ?>
+
                 </div>
               </li>
               <li class="ham-manulist"><a href="<?php echo home_url('/members'); ?>">Members</a></li>
@@ -113,15 +132,38 @@
         </div>
         <div class="access">
           <div class="config con-me">Accsess</div>
-          <p>
-            〒103-0027<br>
-            東京都中央区日本橋2-3-21 八重洲セントラルビル9F
-          </p>
+          <?php if (strpos($_SERVER['REQUEST_URI'], '/en/') !== false) { ?>
+            <p>
+              Yaesu Central Building 9F, 2-3-21 Nihonbashi, Chuo-ku, Tokyo 103-0027, Japan
+            </p>
+          <?php } else { ?>
+            <p>
+              〒103-0027<br>
+              東京都中央区日本橋2-3-21 八重洲セントラルビル9F
+            </p>
+          <?php } ?>
           <a class="config con-re" href="https://maps.app.goo.gl/A4sELBRHWV7JE1SV8" target="_blank">
             <img src="<?php echo get_template_directory_uri(); ?>/images/common/icon-map.svg" alt="">
             GoogleMAP
           </a>
         </div>
+        <div class="banner-area menu">
+          <div class="img-box">
+            <a href="https://x-border.jp/" target="_blank">
+              <?php if (strpos($_SERVER['REQUEST_URI'], '/en/') !== false) { ?>
+                <picture>
+                  <source srcset="<?php echo get_template_directory_uri(); ?>/images/common/event-banner_sp_en.jpg" media="(max-width: 768px)">
+                  <img src="<?php echo get_template_directory_uri(); ?>/images/common/event-banner_pc_en.jpg" alt="">
+                </picture>
+              <?php } else { ?>
+                <picture>
+                  <source srcset="<?php echo get_template_directory_uri(); ?>/images/common/event-banner_sp.jpg" media="(max-width: 768px)">
+                  <img src="<?php echo get_template_directory_uri(); ?>/images/common/event-banner_pc.jpg" alt="">
+                </picture>
+              <?php } ?>
+            </a>
+          </div>
+        </div><!-- /.banner-area -->
         <div class="xbp-lo_bg img-box">
           <picture>
             <source srcset="<?php echo get_template_directory_uri(); ?>/images/common/logo02_b.svg" media="(max-width: 768px)">

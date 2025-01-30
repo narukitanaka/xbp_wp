@@ -91,6 +91,21 @@ function initConceptAnimation() {
   }
 }
 
+//Topニュースの背景色変化
+function initNewsBackgroundAnimation() {
+  // ScrollTriggerプラグインを使用
+  gsap.to(".wrap_news", {
+    scrollTrigger: {
+      trigger: ".wrap_news",
+      start: "bottom 50%", // 要素のトップが画面の40%位置に来たとき
+      toggleClass: {
+        targets: ".wrap_news",
+        className: "bgcolor-active",
+      },
+    },
+  });
+}
+
 // ページ遷移アニメーション
 function initializeTransition() {
   const panels = gsap.utils.toArray(".transition-panel");
@@ -109,17 +124,17 @@ function initializeTransition() {
   });
 }
 // ページを離れるときのアニメーション
-window.addEventListener("beforeunload", () => {
-  const panels = gsap.utils.toArray(".transition-panel");
-  // アニメーションをすぐに実行
-  gsap.to(panels, {
-    scaleY: 1,
-    duration: 0.5,
-    stagger: 0.1,
-    ease: "power2.in",
-    transformOrigin: "bottom",
-  });
-});
+// window.addEventListener("beforeunload", () => {
+//   const panels = gsap.utils.toArray(".transition-panel");
+//   // アニメーションをすぐに実行
+//   gsap.to(panels, {
+//     scaleY: 1,
+//     duration: 0.5,
+//     stagger: 0.1,
+//     ease: "power2.in",
+//     transformOrigin: "bottom",
+//   });
+// });
 // ブラウザバック時の処理
 window.addEventListener("pageshow", (e) => {
   if (e.persisted) {
@@ -156,7 +171,7 @@ function initFadeInAnimations() {
     });
   }
 
-  // GSAPフェードイン（順番に汎用）
+  // GSAPフェードイン（順番に）
   const saggerElements = document.querySelectorAll(".fadeInStagger");
   if (saggerElements.length > 0) {
     gsap.from(saggerElements, {
@@ -287,61 +302,142 @@ function initIntersectionObserver() {
 ///////////////////////////////////////////////////////////////////////////////////////
 function initSwipers() {
   // Top Press Swiper
+  // const topPressElement = document.querySelector(".top-press_swiper");
+  // if (topPressElement) {
+  //   new Swiper(".top-press_swiper", {
+  //     slidesPerView: "auto",
+  //     loop: true,
+  //     speed: 1000,
+  //     allowTouchMove: false,
+  //     spaceBetween: 10,
+  //     autoplay: {
+  //       delay: 3000,
+  //       disableOnInteraction: false,
+  //     },
+  //     breakpoints: {
+  //       769: {
+  //         slidesPerView: "auto",
+  //         spaceBetween: 20,
+  //         loopedSlides: 6,
+  //       },
+  //     },
+  //   });
+  // }
   const topPressElement = document.querySelector(".top-press_swiper");
-  if (topPressElement) {
-    new Swiper(".top-press_swiper", {
-      slidesPerView: 1.2,
-      loop: true,
-      speed: 1000,
-      allowTouchMove: false,
-      spaceBetween: 20,
-      autoplay: {
-        delay: 3000,
-        disableOnInteraction: false,
-      },
-      breakpoints: {
-        769: {
+  const wrapPressElement = document.querySelector(".wrap_press");
+
+  if (topPressElement && wrapPressElement) {
+    const slideCount = topPressElement.querySelectorAll(".swiper-slide").length;
+    const isMobile = window.innerWidth < 769;
+    const shouldInitialize = isMobile ? slideCount >= 2 : slideCount >= 3;
+
+    if (shouldInitialize) {
+      new Swiper(".top-press_swiper", {
+        slidesPerView: "auto",
+        loop: true,
+        speed: 1000,
+        allowTouchMove: false,
+        spaceBetween: 10,
+        autoplay: {
+          delay: 3000,
+          disableOnInteraction: false,
+        },
+        breakpoints: {
+          769: {
+            slidesPerView: "auto",
+            spaceBetween: 20,
+            loopedSlides: 6,
+          },
+        },
+      });
+    } else {
+      // スライダー非アクティブ時のクラス追加
+      topPressElement.classList.add("no-swiper");
+      wrapPressElement.classList.add("is-static");
+    }
+
+    let swiper = null;
+    window.addEventListener("resize", () => {
+      const currentIsMobile = window.innerWidth < 769;
+      const currentShouldInitialize = currentIsMobile
+        ? slideCount >= 2
+        : slideCount >= 3;
+
+      if (swiper) {
+        swiper.destroy(true, true);
+        swiper = null;
+        topPressElement.classList.remove("no-swiper");
+        wrapPressElement.classList.remove("is-static");
+      }
+
+      if (currentShouldInitialize) {
+        swiper = new Swiper(".top-press_swiper", {
           slidesPerView: "auto",
-          loopedSlides: 3,
-        },
-      },
-      on: {
-        beforeInit: function () {
-          this.params.loopedSlides = document.querySelectorAll(
-            ".top-press_swiper .swiper-slide"
-          ).length;
-        },
-      },
+          loop: true,
+          speed: 1000,
+          allowTouchMove: false,
+          spaceBetween: 10,
+          autoplay: {
+            delay: 3000,
+            disableOnInteraction: false,
+          },
+          breakpoints: {
+            769: {
+              slidesPerView: "auto",
+              spaceBetween: 20,
+              loopedSlides: 6,
+            },
+          },
+        });
+      } else {
+        topPressElement.classList.add("no-swiper");
+        wrapPressElement.classList.add("is-static");
+      }
     });
   }
 
   // Under Press Swiper
   const underPressElement = document.querySelector(".p-projects_swiper");
   if (underPressElement) {
-    new Swiper(".p-projects_swiper", {
-      slidesPerView: 1.1,
-      loop: true,
-      speed: 1000,
-      allowTouchMove: false,
-      spaceBetween: 14,
-      autoplay: {
-        delay: 3000,
-        disableOnInteraction: false,
-      },
-      breakpoints: {
-        769: {
-          slidesPerView: "3.4",
-          loopedSlides: 5,
+    // スライド数を取得
+    const slideCount = document.querySelectorAll(
+      ".p-projects_swiper .swiper-slide"
+    ).length;
+    // 画面幅の条件を取得（769px以上でPC）
+    const isPc = window.matchMedia("(min-width: 769px)").matches;
+    // Swiperを初期化する条件をチェック（PCで4つ以上、またはSPで2つ以上）
+    const shouldInitSwiper =
+      (isPc && slideCount >= 4) || (!isPc && slideCount >= 2);
+    if (shouldInitSwiper) {
+      new Swiper(".p-projects_swiper", {
+        slidesPerView: 1.1,
+        loop: true,
+        speed: 1000,
+        allowTouchMove: false,
+        spaceBetween: 14,
+        autoplay: {
+          delay: 3000,
+          disableOnInteraction: false,
         },
-      },
-      on: {
-        beforeInit: function () {
-          this.params.loopedSlides = document.querySelectorAll(
-            ".p-projects_swiper .swiper-slide"
-          ).length;
+        breakpoints: {
+          769: {
+            slidesPerView: "3.4",
+            loopedSlides: 5,
+          },
         },
-      },
-    });
+        on: {
+          beforeInit: function () {
+            this.params.loopedSlides = slideCount;
+          },
+        },
+      });
+    } else {
+      // Swiperが起動しない場合、swiper-wrapper要素に識別用クラスを追加
+      const swiperWrapper = underPressElement.querySelector(".swiper-wrapper");
+      if (swiperWrapper) {
+        swiperWrapper.classList.add("is-static");
+      }
+    }
   }
 
   // Member Text Slider
@@ -421,6 +517,7 @@ function initProjectHover() {
 document.addEventListener("DOMContentLoaded", function () {
   initCommonGsapAnimations();
   initConceptAnimation();
+  initNewsBackgroundAnimation();
   initializeTransition();
   initFadeInAnimations();
   initHamburgerMenu();

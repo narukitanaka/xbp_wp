@@ -7,7 +7,7 @@ footer {
   position: relative;
   z-index: 21;
   background-color: #0a0a0a;
-  padding: 3.2rem v.pxtovw(40) 1.3rem;
+  padding: 3.2rem v.pxtovw(100) 1.3rem;
   .logo {
     width: 31rem;
     @include c.mq() {
@@ -46,7 +46,7 @@ footer {
     p {
       font-size: 1rem;
       small {
-        font-size: 1.1rem;
+        font-size: 1.4rem;
         @include c.mq() {
           font-size: 1.4rem;
         }

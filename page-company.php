@@ -15,55 +15,117 @@
 
       <div class="block philosophy">
         <p class="num config">01</p>
-        <h2><span class="config">philosophy</span><span class="line"></span>経営理念</h2>
+        <h2>
+          <span class="config">philosophy</span>
+          <?php if (strpos($_SERVER['REQUEST_URI'], '/en/') !== false) { ?>
+            <!-- 英語はなし -->
+          <?php } else { ?>
+            <span class="line"></span>
+            経営理念
+          <?php } ?>
+        </h2>
         <h3>
-          テクノロジーとエンタメの力で、<br>
-          あらゆる既存の境界を拡張し、新たな地平を切り開く。
+          <?php if (strpos($_SERVER['REQUEST_URI'], '/en/') !== false) { ?>
+            To expand all existing boundaries and open up new horizons with the power of technology and entertainment.
+          <?php } else { ?>
+            テクノロジーとエンタメの力で、<br>
+            あらゆる既存の境界を拡張し、新たな地平を切り開く。
+          <?php } ?>
         </h3>
         <div class="content">
           <div class="img-box fig">
-            <picture>
-              <source srcset="<?php echo get_template_directory_uri(); ?>/images/common/p-company_img01_sp.png" media="(max-width: 768px)">
-              <img src="<?php echo get_template_directory_uri(); ?>/images/common/p-company_img01.png" alt="">
-            </picture>
+            <?php if (strpos($_SERVER['REQUEST_URI'], '/en/') !== false) { ?>
+              <picture>
+                <source srcset="<?php echo get_template_directory_uri(); ?>/images/common/p-company_img01_sp_en.png" media="(max-width: 768px)">
+                <img src="<?php echo get_template_directory_uri(); ?>/images/common/p-company_img01_en.png" alt="">
+              </picture>
+            <?php } else { ?>
+              <picture>
+                <source srcset="<?php echo get_template_directory_uri(); ?>/images/common/p-company_img01_sp.png" media="(max-width: 768px)">
+                <img src="<?php echo get_template_directory_uri(); ?>/images/common/p-company_img01.png" alt="">
+              </picture>
+            <?php } ?>
           </div>
           <div class="img-box xbp-logo"><img src="<?php echo get_template_directory_uri(); ?>/images/common/logo02_a.svg" alt=""></div>
           <p class="txt">
-            想像のボーダーラインを広げるのは純粋な好奇心。<br>
-            それぞれが信じる可能性に投資していくことが新しい発見につながると私たちは信じています。<br>
-            <br>
-            ここは”思考と試行”の実験場。XBPはインスピレーションを形にできる、可能性にあふれた場所になります。
+            <?php if (strpos($_SERVER['REQUEST_URI'], '/en/') !== false) { ?>
+              It is pure curiosity that expands the boundaries of imagination. <br>
+              We believe that investing in the possibilities that each of us believes in leads to new discoveries.<br>
+              <br>
+              This is a testing ground for “thinking and experimenting.<br>
+              XBP will be a place full of possibilities where you can give shape to your inspirations.
+            <?php } else { ?>
+              想像のボーダーラインを広げるのは純粋な好奇心。<br>
+              それぞれが信じる可能性に投資していくことが新しい発見につながると私たちは信じています。<br>
+              <br>
+              ここは”思考と試行”の実験場。XBPはインスピレーションを形にできる、可能性にあふれた場所になります。
+            <?php } ?>
           </p>
         </div>
       </div><!-- /.block -->
 
       <div class="block company-info">
         <p class="num config"><span></span>02</p>
-        <h2><span class="config">Company Info</span><span class="line"></span>会社概要</h2>
+        <h2>
+          <span class="config">Company Info</span>
+          <?php if (strpos($_SERVER['REQUEST_URI'], '/en/') !== false) { ?>
+            <!-- 英語はなし -->
+          <?php } else { ?>
+            <span class="line"></span>
+            経
+          <?php } ?>
+        </h2>
         <table>
           <tr>
-            <th>会社名</th>
-            <td>株式会社 XBP .Inc</td>
+            <?php if (strpos($_SERVER['REQUEST_URI'], '/en/') !== false) { ?>
+              <th>Company Name</th>
+              <td>XBP Inc.</td>
+            <?php } else { ?>
+              <th>会社名</th>
+              <td>XBP 株式会社</td>
+            <?php } ?>
           </tr>
           <tr>
-            <th>所在地</th>
-            <td>
-              〒103-0027<br>
-              東京都中央区日本橋2-3-21 八重洲セントラルビル9F
-            </td>
+            <?php if (strpos($_SERVER['REQUEST_URI'], '/en/') !== false) { ?>
+              <th>Address</th>
+              <td>
+                Yaesu Central Building 9F, 2-3-21 Nihonbashi, Chuo-ku, Tokyo 103-0027, Japan
+              </td>
+            <?php } else { ?>
+              <th>所在地</th>
+              <td>
+                〒103-0027<br>
+                東京都中央区日本橋2-3-21 八重洲セントラルビル9F
+              </td>
+            <?php } ?>
           </tr>
           <tr>
-            <th>代表取締役</th>
-            <td>川邊 晃</td>
+            <?php if (strpos($_SERVER['REQUEST_URI'], '/en/') !== false) { ?>
+              <th>Representative Director</th>
+              <td>Akira Kawabe</td>
+            <?php } else { ?>
+              <th>代表取締役</th>
+              <td>川邊 晃</td>
+            <?php } ?>
           </tr>
           <tr>
-            <th>事業内容</th>
-            <td>
-              IPエンターテインメントビジネス協業&代行/<br>
-              IPコンテンツ再生マネジメント/<br>
-              新IP＆アクティビティ開発/<br>
-              パワードスーツ開発/ファンド事業
-            </td>
+            <?php if (strpos($_SERVER['REQUEST_URI'], '/en/') !== false) { ?>
+              <th>Business</th>
+              <td>
+                IP Entertainment Business Collaboration & Representation/<br>
+                IP content reproduction management/<br>
+                New IP & Activity Development<br>
+                Powered Suit Development/Fund Business
+              </td>
+            <?php } else { ?>
+              <th>事業内容</th>
+              <td>
+                IPエンターテインメントビジネス協業&代行/<br>
+                IPコンテンツ再生マネジメント/<br>
+                新IP＆アクティビティ開発/<br>
+                パワードスーツ開発/ファンド事業
+              </td>
+            <?php } ?>
           </tr>
         </table>
         <div class="map">

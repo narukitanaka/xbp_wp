@@ -7,22 +7,18 @@ top
   position: relative;
   width: 100vw;
   height: 100svh;
+  max-height: 108rem;
   overflow: hidden;
   background-color: v.$bg-color01;
   z-index: 20;
-  .geometory {
-    position: absolute;
-    top: v.pxtovw(-165);
-    right: v.pxtovw(-544);
-    width: v.pxtovw(1616);
-    opacity: 0.8;
-    @include c.mq() {
-      top: auto;
-      bottom: v.pxtovw_sp(-97);
-      right: v.pxtovw_sp(-277);
-      width: v.pxtovw_sp(676);
-      opacity: 0.4;
-    }
+  @include c.mq() {
+    max-height: calc(100vh - 9.6rem);
+  }
+  video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
   }
   p {
     position: absolute;
@@ -34,8 +30,7 @@ top
     @include c.mq() {
       font-size: 1.4rem;
       left: v.pxtovw_sp(15);
-      bottom: auto;
-      top: v.pxtovw_sp(120);
+      bottom: v.pxtovw_sp(20);
       letter-spacing: 0.5px;
     }
   }
@@ -64,6 +59,9 @@ top
     }
   }
   .cont {
+    @include c.mq() {
+      width: 100%;
+    }
     .time-wrap {
       @include c.mq() {
         position: absolute;
@@ -118,6 +116,34 @@ top
   }
 }
 
+.banner-area {
+  position: relative;
+  padding: 0 0 10rem;
+  z-index: 20;
+  @include c.mq() {
+    padding: 0 0 6rem;
+  }
+  &.menu {
+    .img-box {
+      max-width: 45rem;
+      margin: 0 auto 0 0;
+      @include c.mq() {
+        width: 100%;
+      }
+    }
+  }
+  .img-box {
+    max-width: 80rem;
+    margin: 0 auto;
+    @include c.mq() {
+      width: 90%;
+    }
+    img {
+      vertical-align: middle;
+    }
+  }
+}
+
 .white-overlay {
   position: absolute;
   top: 0;
@@ -130,9 +156,9 @@ top
 }
 .wrap_concept {
   position: relative;
-  padding: 16rem 0 17.5rem;
+  padding: 10rem 0 17.5rem;
   @include c.mq() {
-    padding: 8rem 0 10rem;
+    padding: 4rem 0 10rem;
   }
   .inner {
     position: relative;
@@ -228,6 +254,11 @@ top
   @include c.mq() {
     padding: 10rem 0 2rem;
   }
+  &.lang-en {
+    @include c.mq() {
+      padding: 5rem 0 2rem;
+    }
+  }
   &::before {
     content: "";
     width: 100%;
@@ -319,10 +350,20 @@ top
     .left {
       position: relative;
       .img-box {
+        position: relative;
         width: 100%;
         aspect-ratio: 1/0.94;
         opacity: 1;
         transition: opacity 0.3s ease;
+        &::before {
+          content: "※イメージです";
+          position: absolute;
+          top: 5px;
+          left: 5px;
+          font-size: 10px;
+          color: #adadad;
+          z-index: 21;
+        }
         img {
           filter: brightness(0.6);
         }
@@ -431,6 +472,26 @@ top
             transition: all 0.3s;
           }
         }
+        &.comingsoon {
+          pointer-events: none;
+          .name {
+            p {
+              opacity: 0.4;
+            }
+            .cs-txt {
+              font-size: 2rem;
+              line-height: 1;
+              opacity: 1;
+            }
+          }
+          svg {
+            .arrow-f,
+            .circle-s {
+              stroke: #202020;
+              fill: #202020;
+            }
+          }
+        }
       }
     }
   }
@@ -495,6 +556,22 @@ top
             fill: #fff;
           }
         }
+        &.comingsoon {
+          pointer-events: none;
+          .name {
+            p {
+              opacity: 0.5;
+            }
+            .cs-txt {
+              font-size: 2rem;
+              line-height: 1;
+              opacity: 1;
+            }
+          }
+          svg {
+            display: none;
+          }
+        }
       }
     }
   }
@@ -545,10 +622,12 @@ top
       gap: 0;
     }
     .left {
+      position: relative;
       width: 57.3rem;
       flex-wrap: wrap;
       column-gap: 3rem;
       row-gap: 4.5rem;
+      z-index: 21;
       @include c.mq() {
         width: 100%;
         column-gap: 1.5rem;
@@ -610,8 +689,10 @@ top
         }
       }
       .btn-wrap {
+        position: relative;
         display: flex;
         justify-content: end;
+        z-index: 22;
         @include c.mq() {
           position: absolute;
           bottom: 10rem;
@@ -640,9 +721,64 @@ top
   position: relative;
   padding: 12rem 0 18rem;
   background-color: #c0c0c0;
-  z-index: 20;
+  z-index: 21;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   @include c.mq() {
     padding: 6rem 0 16.5rem;
+  }
+  &.bgcolor-active {
+    background-color: #0a0a0a;
+    .left {
+      .ttl-wrap {
+        .num,
+        h2 {
+          color: #fff;
+        }
+      }
+      .btn-wrap {
+        @include c.mq() {
+          .btn01 {
+            border: 1px solid #fff;
+          }
+        }
+      }
+      .btn01 {
+        color: #fff;
+        &::after {
+          background-color: #fff;
+        }
+        svg {
+          .circle-s {
+            stroke: #fff;
+          }
+          .arrow-f {
+            fill: #fff;
+          }
+        }
+      }
+    }
+    .right {
+      dl {
+        border-bottom: 0.5px solid #fff;
+        a {
+          dt {
+            color: #000;
+            background-color: #fff;
+          }
+          dd {
+            color: #fff;
+          }
+          svg {
+            .circle-s {
+              stroke: #fff;
+            }
+            .arrow-f {
+              fill: #fff;
+            }
+          }
+        }
+      }
+    }
   }
   .inner {
     justify-content: space-between;
@@ -659,6 +795,7 @@ top
       .num,
       h2 {
         color: #000;
+        transition: all 0.3s;
       }
       .num {
         .line {
@@ -718,6 +855,7 @@ top
     }
     dl {
       border-bottom: 0.5px solid #000;
+      transition: all 0.3s;
       a {
         position: relative;
         display: flex;
@@ -733,6 +871,8 @@ top
           text-align: center;
           width: 8rem;
           background-color: #313131;
+          color: #fff;
+          transition: all 0.3s;
           @include c.mq() {
             font-size: 1.1rem;
           }
@@ -742,6 +882,7 @@ top
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
+          transition: all 0.3s;
           @include c.mq() {
             padding-right: 4rem;
           }
@@ -771,6 +912,17 @@ top
   }
 }
 
+main {
+  &:not(:has(.wrap_press)) {
+    .wrap_news {
+      margin-bottom: 12rem;
+      @include c.mq() {
+        margin-bottom: 8rem;
+      }
+    }
+  }
+}
+
 .wrap_press {
   position: relative;
   overflow: hidden;
@@ -780,6 +932,35 @@ top
   @include c.mq() {
     padding: 9rem 0 2rem;
   }
+  &.is-static {
+    .top-press_swiper {
+      .swiper-slide {
+        width: v.pxtovw(400);
+        @include c.mq() {
+          width: 25rem;
+        }
+        .contents {
+          width: 100%;
+          width: v.pxtovw(400);
+          @include c.mq() {
+            width: 25rem;
+          }
+        }
+        &:first-of-type {
+          width: v.pxtovw(600);
+          @include c.mq() {
+            width: 32rem;
+          }
+          .contents {
+            width: v.pxtovw(600);
+            @include c.mq() {
+              width: 32rem;
+            }
+          }
+        }
+      }
+    }
+  }
   .top-press_swiper {
     width: 100%;
     @include c.mq() {
@@ -787,8 +968,29 @@ top
     }
     .swiper-slide {
       width: v.pxtovw(400);
+      transition: width 0.8s ease;
+      -webkit-transition: width 0.8s ease;
+      @include c.mq() {
+        width: 25rem;
+      }
+      &.swiper-slide-duplicate-active,
       &.swiper-slide-active {
+        transition: none;
         width: v.pxtovw(600);
+        @include c.mq() {
+          width: 32rem;
+        }
+        .contents {
+          width: v.pxtovw(600);
+          @include c.mq() {
+            width: 32rem;
+          }
+        }
+      }
+      &.swiper-slide-active {
+        transition: width 0.8s ease;
+      }
+      &.swiper-slide-active {
         .contents {
           padding: 2.5rem 4rem 2rem;
           @include c.mq() {
@@ -837,6 +1039,10 @@ top
         left: 0;
         background-color: rgba($color: #000000, $alpha: 0.6);
         padding: 2rem 2rem 1.5rem;
+        width: v.pxtovw(400);
+        @include c.mq() {
+          width: 25rem;
+        }
         .cate,
         p {
           font-weight: 400;
@@ -846,6 +1052,10 @@ top
         }
         p {
           margin-bottom: 1rem;
+          display: -webkit-box;
+          -webkit-line-clamp: 2; /* 2行に制限 */
+          -webkit-box-orient: vertical;
+          overflow: hidden;
         }
         .time {
           font-size: 1.2rem;
@@ -857,11 +1067,15 @@ top
   .ttl-posi {
     text-align: end;
     padding-right: v.pxtovw(40);
+    @include c.mq() {
+      text-align: start;
+    }
   }
   .ttl-wrap {
     margin-bottom: 5.2rem;
     @include c.mq() {
       padding-left: v.pxtovw_sp(15);
+      margin-bottom: 3.5rem;
     }
     &::before {
       width: v.pxtovw(183);
@@ -969,6 +1183,9 @@ top
     @include c.mq() {
       width: 100%;
       margin-bottom: 4rem;
+    }
+    &::after {
+      display: none;
     }
   }
 }

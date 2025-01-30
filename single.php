@@ -15,7 +15,11 @@
       <div class="time-share flex">
         <div class="time config con-l"><?php echo get_the_date(); ?></div>
         <div class="sns flex">
-          <p>この記事をシェアする：</p>
+          <?php if (strpos($_SERVER['REQUEST_URI'], '/en/') !== false) { ?>
+            <p>Share this article：</p>
+          <?php } else { ?>
+            <p>この記事をシェアする：</p>
+          <?php } ?>
           <div class="sns-box">
             <a href="https://twitter.com/share?url=<?php echo get_the_permalink();?>&text=<?php echo get_the_title();?>"
               target="_blank" rel="nofollow noopener">
@@ -45,7 +49,11 @@
             <circle class="circle-s" cx="10.5" cy="10.5" r="10" stroke="black" />
             <path class="arrow-f" d="M14 10.5L8.75 13.5311L8.75 7.46891L14 10.5Z" fill="black" />
           </svg>
-          一覧へ戻る
+          <?php if (strpos($_SERVER['REQUEST_URI'], '/en/') !== false) { ?>
+            <p>Back to List</p>
+          <?php } else { ?>
+            <p>一覧へ戻る</p>
+          <?php } ?>
         </a>
       </div>
     </div>

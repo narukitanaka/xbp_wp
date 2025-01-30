@@ -2,17 +2,25 @@
       <div class="logo img-box"><img src="<?php echo get_template_directory_uri(); ?>/images/common/logo.svg" alt=""></div>
       <nav>
         <ul class="flex">
-          <li><a href="#concept">Concept</a></li>
-          <li><a href="#business">Business</a></li>
-          <li><a href="#projects">Projects</a></li>
-          <li><a href="members.html">Members</a></li>
-          <li><a href="archive_news.html">News</a></li>
-          <li><a href="archive_press.html">Pless Rerease</a></li>
-          <li><a href="company.html">Company</a></li>
+          <!-- <li><a href="<?php echo home_url('/#concept'); ?>">Concept</a></li>
+          <li><a href="<?php echo home_url('/#business'); ?>">Business</a></li> -->
+          <li><a href="<?php echo home_url('/'); ?>">Home</a></li>
+          <li><a href="<?php echo home_url('/#project'); ?>">Projects</a></li>
+          <li><a href="<?php echo home_url('/members'); ?>">Members</a></li>
+          <li><a href="<?php echo home_url('/news'); ?>">News</a></li>
+          <li><a href="<?php echo home_url('/press'); ?>">Pless Rerease</a></li>
+          <li><a href="<?php echo home_url('/company'); ?>">Company</a></li>
+          <li><a href="<?php echo home_url('/contact'); ?>">Contact</a></li>
         </ul>
       </nav>
       <div class="footer-bottom flex">
-        <a href="<?php echo home_url('/policy'); ?>">プライバシーポリシー</a>
+        <a href="<?php echo home_url('/policy'); ?>">
+          <?php if (strpos($_SERVER['REQUEST_URI'], '/en/') !== false) { ?>
+            Privacy Policy
+          <?php } else { ?>
+            プライバシーポリシー
+          <?php } ?>
+        </a>
         <p><small class="config con-l">© XPB Inc. all rights reserved.</small></p>
       </div>
     </footer>
@@ -20,6 +28,7 @@
     <!-- js -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="<?php echo get_template_directory_uri(); ?>/js/swiper-bundle.min.js"></script>
+
     <?php if ( is_page('members') ) : ?>
       <script>
         jQuery(document).ready(function ($) {

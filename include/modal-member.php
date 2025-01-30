@@ -29,7 +29,7 @@
       </div>
     </div>
     <div class="in-charge">
-      担当領域：<span class="config con-re"><?php echo esc_html($in_charge); ?></span>
+      <?php echo esc_html($area_label); ?>：<span class="config con-re"><?php echo esc_html($in_charge); ?></span>
     </div>
     <div class="text">
       <?php echo wpautop($profile_text); ?>

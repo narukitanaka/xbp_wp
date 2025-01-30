@@ -4,23 +4,44 @@
       <div class="bg-line"></div>
 
       <div class="wrap_kv">
-        <div class="geometory img-box"><img src="<?php echo get_template_directory_uri(); ?>/images/common/kv_geometry.svg" alt=""></div>
-        <p>
-          想像に限界を作らない。<br>
-          ジャンルの境界を超え、<br>
-          新しいインスピレーションを形にしていく。<br>
-          無数のプロジェクトの集合体。
-        </p>
+        <video src="<?php echo get_template_directory_uri(); ?>/images/video/kv.mp4" loop muted autoplay playsinline></video>
+        <?php if (strpos($_SERVER['REQUEST_URI'], '/en/') !== false) { ?>
+          <p>
+            Unleash Your Imagination.<br>
+            Transcending genre boundaries,<br>
+            we give shape to new inspiration.<br>
+            A collective of countless projects.
+          </p>
+        <?php } else { ?>
+          <p>
+            想像に限界を作らない。<br>
+            ジャンルの境界を超え、<br>
+            新しいインスピレーションを形にしていく。<br>
+            無数のプロジェクトの集合体。
+          </p>
+        <?php } ?>
+
       </div><!-- /.wrap_kv -->
 
+      <?php
+        $args = array(
+            'post_type' => 'post',          // デフォルトの投稿タイプ
+            'posts_per_page' => 1,          // 1件のみ取得
+            'orderby' => 'date',            // 日付順
+            'order' => 'DESC',              // 降順（最新順）
+        );
+        $latest_post = new WP_Query($args);
+        if ($latest_post->have_posts()) :
+            while ($latest_post->have_posts()) : $latest_post->the_post();
+        ?>
 
       <div class="wrap_top-news">
         <div class="inner-wide">
-          <a href="#">
+          <a href="<?php the_permalink(); ?>">
             <div class="config con-l ttl">News</div>
             <div class="cont flex">
-              <p class="time-wrap"><span class="time config con-l">2025.01.11</span></p>
-              <p class="txt">投稿タイトルが入ります。テキストテキストテキストテキスト</p>
+              <p class="time-wrap"><span class="time config con-l"><?php echo get_the_date(); ?></span></p>
+              <p class="txt"><?php the_title(); ?></p>
               <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <circle cx="10.5" cy="10.5" r="10" stroke="black" />
                 <path d="M14 10.5L8.75 13.5311L8.75 7.46891L14 10.5Z" fill="black" />
@@ -30,31 +51,88 @@
         </div>
       </div><!-- /.wrap_top-news -->
 
-      <section id="concept" class="wrap_concept buis-trigger">
-        <div class="inner">
+      <?php
+          endwhile;
+          wp_reset_postdata(); // クエリのリセット
+      endif;
+      ?>
+
+
+      <section class="wrap_concept buis-trigger">
+
+        <div class="banner-area">
+          <div class="img-box fadeIn">
+            <a href="https://x-border.jp/" target="_blank">
+              <?php if (strpos($_SERVER['REQUEST_URI'], '/en/') !== false) { ?>
+                <picture>
+                  <source srcset="<?php echo get_template_directory_uri(); ?>/images/common/event-banner_sp_en.jpg" media="(max-width: 768px)">
+                  <img src="<?php echo get_template_directory_uri(); ?>/images/common/event-banner_pc_en.jpg" alt="">
+                </picture>
+              <?php } else { ?>
+                <picture>
+                  <source srcset="<?php echo get_template_directory_uri(); ?>/images/common/event-banner_sp.jpg" media="(max-width: 768px)">
+                  <img src="<?php echo get_template_directory_uri(); ?>/images/common/event-banner_pc.jpg" alt="">
+                </picture>
+              <?php } ?>
+            </a>
+          </div>
+        </div><!-- /.banner-area -->
+
+        <div id="concept" class="inner">
           <div class="catch-wrap">
-            <h1>
-              創造の<br>
-              ボーダーラインを<br>
-              広げる
-            </h1>
+
+            <?php
+            if (strpos($_SERVER['REQUEST_URI'], '/en/') !== false) {
+            ?>
+              <h1>
+                Expanding<br>
+                The frontiers of<br>
+                Creativity.
+              </h1>
+            <?php
+            } else {
+            ?>
+              <h1>
+                創造の<br>
+                ボーダーラインを<br>
+                広げる
+              </h1>
+            <?php
+            }
+            ?>
+
           </div>
           <div class="contents">
             <div class="ttl-wrap">
               <div class="num"><span class="line"></span>01</div>
               <h2>Concept</h2>
             </div>
-            <p class="gsapfadeIn">
-              <span>未知の可能性が、形になる。</span><br>
-              <span>その最初のきっかけは、いつも人間の想像力。</span><br>
-              <span>エンタメが刺激した夢が、テクノロジーのビジョンを作り、</span><br>
-              <span>テクノロジーが切り拓いた可能性が、エンタメに新たな表現をもたらしてきた。</span><br>
-              <br>
-              <span>一つの会社のなかで、そのサイクルを作れたら。</span><br>
-              <span>エンタメとテクノロジーを両輪に、固定観念に囚われず、</span><br>
-              <span>新しい発想を形にしていく。どんな空想も、現実にしてみせる。</span><br>
-              <span>それが私たちXBP Inc.の存在理由です。</span>
-            </p>
+            <?php if (strpos($_SERVER['REQUEST_URI'], '/en/') !== false) { ?>
+              <!-- 英語 -->
+              <p class="gsapfadeIn">
+                <span>Where Untapped Potential Takes Form.</span><br>
+                <span>The initial spark always comes from human imagination.</span><br>
+                <span>Dreams inspired by entertainment shape technological visions, </span><br>
+                <span>and possibilities opened up by technology bring new expressions to entertainment.</span><br>
+                <br>
+                <span>What if we could create that cycle within a single company?</span><br>
+                <span>With entertainment and technology as our driving forces,</span><br>
+                <span>we break free from fixed ideas and give shape to new concepts.We make any fantasy a reality. </span><br>
+                <span>That is the raison d'être of XBP Inc.</span>
+              </p>
+            <?php } else { ?>
+              <p class="gsapfadeIn">
+                <span>未知の可能性が、形になる。</span><br>
+                <span>その最初のきっかけは、いつも人間の想像力。</span><br>
+                <span>エンタメが刺激した夢が、テクノロジーのビジョンを作り、</span><br>
+                <span>テクノロジーが切り拓いた可能性が、エンタメに新たな表現をもたらしてきた。</span><br>
+                <br>
+                <span>一つの会社のなかで、そのサイクルを作れたら。</span><br>
+                <span>エンタメとテクノロジーを両輪に、固定観念に囚われず、</span><br>
+                <span>新しい発想を形にしていく。どんな空想も、現実にしてみせる。</span><br>
+                <span>それが私たちXBP Inc.の存在理由です。</span>
+              </p>
+            <?php } ?>
           </div>
         </div>
         <div class="con-logo img-box">
@@ -66,18 +144,31 @@
       </section><!-- /.wrap_concept -->
 
 
+      <?php if (strpos($_SERVER['REQUEST_URI'], '/en/') !== false) { ?>
+      <section id="business" class="wrap_business lang-en">
+      <?php } else { ?>
       <section id="business" class="wrap_business">
+      <?php } ?>
         <div class="inner">
           <div class="ttl-wrap">
             <div class="num"><span class="line"></span>02</div>
             <h2>Business</h2>
           </div>
-          <p>
-            テクノロジーの境界と、エンターテイメントの境界。既存の境界を広げた先に生まれる、新しい可能性。<br>
-            ハードとソフトの区別を設けないからこそ見つかる革新的なアイディアで、インスピレーションを現実に。<br>
-            これまでエンタメの世界だけに存在するものだと思われていたアイディアを、テクノロジーで実現する。<br>
-            そして、テクノロジーが切り拓いた未知の世界、そこから生まれる気概を、また新しいエンタメ表現へと転換し、進化し続けます。
-          </p>
+          <?php if (strpos($_SERVER['REQUEST_URI'], '/en/') !== false) { ?>
+            <p>
+              Pushing the Boundaries of Technology and Entertainment.New possibilities are born beyond the existing boundaries of technology and entertainment.<br>
+              By refusing to distinguish between hardware and software, we discover groundbreaking ideas and turn inspiration into reality.<br>
+              We realize ideas once confined to the realm of entertainment through technology.<br>
+              And we continue to evolve, transforming the spirit born from the uncharted territories pioneered by technology into new forms of entertainment expression.
+            </p>
+          <?php } else { ?>
+            <p>
+              テクノロジーの境界と、エンターテイメントの境界。既存の境界を広げた先に生まれる、新しい可能性。<br>
+              ハードとソフトの区別を設けないからこそ見つかる革新的なアイディアで、インスピレーションを現実に。<br>
+              これまでエンタメの世界だけに存在するものだと思われていたアイディアを、テクノロジーで実現する。<br>
+              そして、テクノロジーが切り拓いた未知の世界、そこから生まれる気概を、また新しいエンタメ表現へと転換し、進化し続けます。
+            </p>
+          <?php } ?>
           <div class="img-box fadeIn"><img src="<?php echo get_template_directory_uri(); ?>/images/common/business_img01.png" alt=""></div>
         </div>
         <div class="circle"></div>
@@ -93,25 +184,58 @@
               <div class="img-box obj-fit" data-default-image="<?php echo get_template_directory_uri(); ?>/images/common/projects-a_img01.jpg">
                 <img src="<?php echo get_template_directory_uri(); ?>/images/common/projects-a_img01.jpg" alt="">
               </div>
-              <div class="txt"
-                data-default-text="高いクリエイティビティーがありながら、ターゲット層につながらず埋もれているアニメ、映画、コミック、イラスト、文芸、ドラマ、音楽など幅広い分野の作品（IP）をマネジメント・再プロデュース。国内外での販売につなげます。">
-                <p>
-                  高いクリエイティビティーがありながら、ターゲット層につながらず埋もれているアニメ、映画、コミック、イラスト、文芸、ドラマ、音楽など幅広い分野の作品（IP）をマネジメント・再プロデュース。国内外での販売につなげます。
-                </p>
-              </div>
+              <?php if (strpos($_SERVER['REQUEST_URI'], '/en/') !== false) { ?>
+                <div class="txt"
+                  data-default-text="We manage and re-produce works (IP) in a wide range of fields, including anime, movies, comics, illustrations, literature, dramas, and music, that are highly creative but have not yet connected with the target audience, and we help them to be sold both domestically and overseas.It will also establish Japanese and Asian IP sales channels overseas and serve as a bridge between Japan and the rest of the world.">
+                  <p>
+                    We manage and re-produce works (IP) in a wide range of fields, including anime, movies, comics, illustrations, literature, dramas, and music, that are highly creative but have not yet connected with the target audience, and we help them to be sold both domestically and overseas.It will also establish Japanese and Asian IP sales channels overseas and serve as a bridge between Japan and the rest of the world.
+                  </p>
+                </div>
+              <?php } else { ?>
+                <div class="txt"
+                  data-default-text="高いクリエイティビティーがありながら、ターゲット層につながらず埋もれているアニメ、映画、コミック、イラスト、文芸、ドラマ、音楽など幅広い分野の作品（IP）をマネジメント・再プロデュース。国内外での販売につなげます。">
+                  <p>
+                    高いクリエイティビティーがありながら、ターゲット層につながらず埋もれているアニメ、映画、コミック、イラスト、文芸、ドラマ、音楽など幅広い分野の作品（IP）をマネジメント・再プロデュース。国内外での販売につなげます。
+                  </p>
+                </div>
+              <?php } ?>
             </div><!-- /.left -->
 
             <div class="right">
 
-              <div class="pj-select" data-project="ip-revival" data-image="<?php echo get_template_directory_uri(); ?>/images/common/projects-a_img01.jpg"
-                data-text="高いクリエイティビティーがありながら、ターゲット層につながらず埋もれているアニメ、映画、コミック、イラスト、文芸、ドラマ、音楽など幅広い分野の作品（IP）をマネジメント・再プロデュース。国内外での販売につなげます。">
-                <a href="project01.html" class="flex">
+              <?php
+              $args = array(
+                  'post_type' => 'project',
+                  'posts_per_page' => -1,
+                  'orderby' => 'menu_order',
+                  'order' => 'ASC'
+              );
+              $projects = new WP_Query($args);
+              if ($projects->have_posts()) :
+                while ($projects->have_posts()) : $projects->the_post();
+                $project_title_en = get_field('project_title_en');
+                $top_project_description = get_field('top-project_description');
+                $top_project_category = get_field('top-project_category');
+
+                $thumbnail_url = get_the_post_thumbnail_url(get_the_ID(), 'full');
+                if (!$thumbnail_url) {
+                    $thumbnail_url = get_template_directory_uri() . '/images/common/noimage.jpg';
+                }
+              ?>
+
+              <div class="pj-select" data-image="<?php echo esc_url($thumbnail_url); ?>"
+                data-text="<?php echo esc_attr($top_project_description); ?>">
+                <a href="<?php the_permalink(); ?>" class="flex">
                   <div class="name">
-                    <p class="en congig con-l"><span></span>IP revitalization</p>
-                    <p class="anona">IP再生</p>
+                    <?php if (strpos($_SERVER['REQUEST_URI'], '/en/') !== false) { ?>
+                      <!-- 英語の時は無し -->
+                    <?php } else { ?>
+                      <p class="en congig con-l"><span></span><?php echo esc_html($project_title_en); ?></p>
+                    <?php } ?>
+                    <p class="anona"><?php the_title(); ?></p>
                   </div>
                   <div class="flex">
-                    <div class="type config con-me">Entertainment</div>
+                    <div class="type config con-me"><?php echo nl2br(esc_html($top_project_category)); ?></div>
                     <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <circle class="circle-s" cx="10.5" cy="10.5" r="10" stroke="black" />
                       <path class="arrow-f" d="M14 10.5L8.75 13.5311L8.75 7.46891L14 10.5Z" fill="black" />
@@ -120,44 +244,23 @@
                 </a>
               </div><!-- /.pj-select -->
 
-              <div class="pj-select" data-project="international" data-image="<?php echo get_template_directory_uri(); ?>/images/common/projects-b_img01.jpg"
-                data-text="2024年11月より、カナダを代表するアニメーションスタジオ「Lakeside Animation」にて、日本の実績あるクリエイターとともにオリジナルアニメの制作を開始。">
-                <a href="project02.html" class="flex">
+              <?php
+                endwhile;
+                wp_reset_postdata();
+              endif;
+              ?>
+
+              <div class="pj-select comingsoon">
+                <a href="#" class="flex">
                   <div class="name">
-                    <p class="en congig con-l"><span></span>Co-producing New Animation Internationally</p>
-                    <p class="anona">映像作品 国際共同制作</p>
-                  </div>
-                  <div class="flex">
-                    <div class="type config con-me">Entertainment</div>
-                    <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <circle class="circle-s" cx="10.5" cy="10.5" r="10" stroke="black" />
-                      <path class="arrow-f" d="M14 10.5L8.75 13.5311L8.75 7.46891L14 10.5Z" fill="black" />
-                    </svg>
-                  </div>
-                </a>
-              </div><!-- /.pj-select -->
-              <div class="pj-select" data-project="new-ip" data-image="<?php echo get_template_directory_uri(); ?>/images/common/projects-c_img01.jpg"
-                data-text="アート、スポーツ、音楽ライブ、格闘技、ステージ、古典演劇など様々なリアルイベント体験をマネジメント。たとえば、格闘技×デジタルアート×VR体験。各メディアに精通するプロデューサーが企画をサポートしながら、新しい体験の方法をコネクトし、全く新しいアクティビティーを作り出します。">
-                <a href="project03.html" class="flex">
-                  <div class="name">
-                    <p class="en congig con-l"><span></span>New IP & Activity Development</p>
-                    <p class="anona">新IP&アクティビティ開発</p>
-                  </div>
-                  <div class="flex">
-                    <div class="type config con-me">Entertainment</div>
-                    <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <circle class="circle-s" cx="10.5" cy="10.5" r="10" stroke="black" />
-                      <path class="arrow-f" d="M14 10.5L8.75 13.5311L8.75 7.46891L14 10.5Z" fill="black" />
-                    </svg>
-                  </div>
-                </a>
-              </div><!-- /.pj-select -->
-              <div class="pj-select" data-project="exosuit" data-image="<?php echo get_template_directory_uri(); ?>/images/common/projects-d_img01.jpg"
-                data-text="チームLabの技術者と協働し、災害支援を目的としたパワードスーツを開発。パワードスーツは、人間が着用することで筋肉の動きをサポートし作業者の負担を軽減します。">
-                <a href="project04.html" class="flex">
-                  <div class="name">
-                    <p class="en congig con-l"><span></span>Powered Exosuit Development</p>
-                    <p class="anona">パワードスーツ開発</p>
+                    <?php if (strpos($_SERVER['REQUEST_URI'], '/en/') !== false) { ?>
+                      <!-- 英語の時は無し -->
+                      <p class="anona">Powered Exosuit Development</p>
+                    <?php } else { ?>
+                      <p class="en congig con-l"><span></span>Powered Exosuit Development</p>
+                      <p class="anona">パワードスーツ開発</p>
+                    <?php } ?>
+                    <p class="congig con-l cs-txt">coming soon...</p>
                   </div>
                   <div class="flex">
                     <div class="type config con-me">Technology</div>
@@ -167,39 +270,46 @@
                     </svg>
                   </div>
                 </a>
-              </div><!-- /.pj-select -->
-              <div class="pj-select" data-project="fund" data-image="<?php echo get_template_directory_uri(); ?>/images/common/projects-e_img01.jpg"
-                data-text="主幹事業のなかで培う国内外のクリエイターとのコネクションから投資先を選定。クリエイターが疲弊しない環境、持続可能な制作体勢をビジネス面からサポートし、チーム全体がWIN-WINとなる関係を築きます。">
-                <a href="project05.html" class="flex">
-                  <div class="name">
-                    <p class="en congig con-l"><span></span>Creative Fund</p>
-                    <p class="anona">ファンド</p>
-                  </div>
-                  <div class="flex">
-                    <div class="type config con-me">
-                      Entertainment<br>
-                      &<br>
-                      Technology
-                    </div>
-                    <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <circle class="circle-s" cx="10.5" cy="10.5" r="10" stroke="black" />
-                      <path class="arrow-f" d="M14 10.5L8.75 13.5311L8.75 7.46891L14 10.5Z" fill="black" />
-                    </svg>
-                  </div>
-                </a>
-              </div><!-- /.pj-select -->
+              </div>
+
             </div><!-- /.right -->
           </div><!-- /.top-pjblock -->
         </div>
 
         <div class="top-pjblock_sp u-sp">
+
+        <?php
+          $args = array(
+            'post_type' => 'project',
+            'posts_per_page' => -1,
+            'orderby' => 'menu_order',
+            'order' => 'ASC'
+          );
+          $projects = new WP_Query($args);
+          if ($projects->have_posts()) :
+            while ($projects->have_posts()) : $projects->the_post();
+            $project_title_en = get_field('project_title_en');
+            $top_project_category = get_field('top-project_category');
+
+            $thumbnail_url = get_the_post_thumbnail_url(get_the_ID(), 'full');
+            if (!$thumbnail_url) {
+              $thumbnail_url = get_template_directory_uri() . '/images/common/noimage.jpg';
+            }
+          ?>
+
           <div class="pj-select">
-            <a href="project01.html">
-              <div class="img-box obj-fit"><img src="<?php echo get_template_directory_uri(); ?>/images/common/projects-a_img01.jpg" alt=""></div>
-              <div class="type config con-me">Entertainment</div>
+            <a href="<?php the_permalink(); ?>">
+              <div class="img-box obj-fit">
+                <img src="<?php echo esc_url($thumbnail_url); ?>" alt="">
+              </div>
+              <div class="type config con-me"><?php echo nl2br(esc_html($top_project_category)); ?></div>
               <div class="name">
-                <p class="en config con-l"><span></span>IP revitalization</p>
-                <p class="anona">IP再生</p>
+                <?php if (strpos($_SERVER['REQUEST_URI'], '/en/') !== false) { ?>
+                  <!-- 英語の時は無し -->
+                <?php } else { ?>
+                  <p class="en congig con-l"><span></span><?php echo esc_html($project_title_en); ?></p>
+                <?php } ?>
+                <p class="anona"><?php the_title(); ?></p>
               </div>
               <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <circle class="circle-s" cx="10.5" cy="10.5" r="10" stroke="black" />
@@ -207,41 +317,28 @@
               </svg>
             </a>
           </div>
-          <div class="pj-select">
-            <a href="project02.html">
-              <div class="img-box obj-fit"><img src="<?php echo get_template_directory_uri(); ?>/images/common/projects-b_img01.jpg" alt=""></div>
-              <div class="type config con-me">Entertainment</div>
-              <div class="name">
-                <p class="en config con-l"><span></span>Co-producing New Animation Internationally</p>
-                <p class="anona">映像作品 国際共同制作</p>
+
+          <?php
+            endwhile;
+            wp_reset_postdata();
+          endif;
+          ?>
+
+          <div class="pj-select comingsoon">
+            <a href="#">
+              <div class="img-box obj-fit">
+                <img src="<?php echo get_template_directory_uri(); ?>/images/common/projects-d_img01.jpg" alt="">
               </div>
-              <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle class="circle-s" cx="10.5" cy="10.5" r="10" stroke="black" />
-                <path class="arrow-f" d="M14 10.5L8.75 13.5311L8.75 7.46891L14 10.5Z" fill="black" />
-              </svg>
-            </a>
-          </div>
-          <div class="pj-select">
-            <a href="project03.html">
-              <div class="img-box obj-fit"><img src="<?php echo get_template_directory_uri(); ?>/images/common/projects-c_img01.jpg" alt=""></div>
-              <div class="type config con-me">Entertainment</div>
-              <div class="name">
-                <p class="en config con-l"><span></span>New IP & Activity Development</p>
-                <p class="anona">新IP&アクテビティ開発</p>
-              </div>
-              <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle class="circle-s" cx="10.5" cy="10.5" r="10" stroke="black" />
-                <path class="arrow-f" d="M14 10.5L8.75 13.5311L8.75 7.46891L14 10.5Z" fill="black" />
-              </svg>
-            </a>
-          </div>
-          <div class="pj-select">
-            <a href="project04.html">
-              <div class="img-box obj-fit"><img src="<?php echo get_template_directory_uri(); ?>/images/common/projects-d_img01.jpg" alt=""></div>
               <div class="type config con-me">Technology</div>
               <div class="name">
-                <p class="en config con-l"><span></span>Powered Exosuit Development</p>
-                <p class="anona">パワードスーツ開発</p>
+                <?php if (strpos($_SERVER['REQUEST_URI'], '/en/') !== false) { ?>
+                  <!-- 英語の時は無し -->
+                  <p class="anona">Powered Exosuit Development</p>
+                <?php } else { ?>
+                  <p class="en congig con-l"><span></span>Powered Exosuit Development</p>
+                  <p class="anona">パワードスーツ開発</p>
+                <?php } ?>
+                <p class="congig con-l cs-txt">coming soon...</p>
               </div>
               <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <circle class="circle-s" cx="10.5" cy="10.5" r="10" stroke="black" />
@@ -249,24 +346,7 @@
               </svg>
             </a>
           </div>
-          <div class="pj-select">
-            <a href="project05.html">
-              <div class="img-box obj-fit"><img src="<?php echo get_template_directory_uri(); ?>/images/common/projects-e_img01.jpg" alt=""></div>
-              <div class="type config con-me">
-                Entertainment<br>
-                &<br>
-                Technology
-              </div>
-              <div class="name">
-                <p class="en config con-l"><span></span>Creative Fund</p>
-                <p class="anona">ファンド</p>
-              </div>
-              <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle class="circle-s" cx="10.5" cy="10.5" r="10" stroke="black" />
-                <path class="arrow-f" d="M14 10.5L8.75 13.5311L8.75 7.46891L14 10.5Z" fill="black" />
-              </svg>
-            </a>
-          </div>
+
         </div><!-- /.top-pjblock_sp -->
       </section><!-- /.wrap_projects -->
 
@@ -282,42 +362,86 @@
           <div class="top-memblock flex topmember-fade_triger">
             <div class="left flex">
               <div class="img-box obj-fit member topmember-anime-fade">
-                <img src="<?php echo get_template_directory_uri(); ?>/images/members/members_kawabe.jpg" alt="川邊 晃">
-                <p>
-                  川邊 晃<br>
-                  <span class="config con-l">Akira Kawabe</span>
-                </p>
+                <?php
+                $member_id = 52; 
+                  if (has_post_thumbnail($member_id)) {
+                      echo get_the_post_thumbnail($member_id, 'full', ['alt' => get_the_title($member_id)]);
+                  }
+                ?>
+                <?php if (strpos($_SERVER['REQUEST_URI'], '/en/') !== false) { ?>
+                  <p>Akira Kawabe</p>
+                <?php } else { ?>
+                  <p>
+                    川邊 晃<br>
+                    <span class="config con-l">Akira Kawabe</span>
+                  </p>
+                <?php } ?>
               </div><!-- /.member -->
               <div class="img-box obj-fit member topmember-anime-fade">
-                <img src="<?php echo get_template_directory_uri(); ?>/images/members/members_saeki.jpg" alt="佐伯 まいこ">
-                <p>
-                  佐伯 まいこ<br>
-                  <span class="config con-l">Maiko Saeki</span>
-                </p>
+                <?php
+                $member_id = 71; 
+                  if (has_post_thumbnail($member_id)) {
+                      echo get_the_post_thumbnail($member_id, 'full', ['alt' => get_the_title($member_id)]);
+                  }
+                ?>
+                <?php if (strpos($_SERVER['REQUEST_URI'], '/en/') !== false) { ?>
+                  <p>Maiko Saeki</p>
+                <?php } else { ?>
+                  <p>
+                    佐伯 まいこ<br>
+                    <span class="config con-l">Maiko Saeki</span>
+                  </p>
+                <?php } ?>
               </div><!-- /.member -->
               <div class="img-box obj-fit member topmember-anime-fade">
-                <img src="<?php echo get_template_directory_uri(); ?>/images/members/members_mori.jpg" alt="森 陽平">
-                <p>
-                  森 陽平<br>
-                  <span class="config con-l">Youhei Mori</span>
-                </p>
+                <?php
+                $member_id = 69; 
+                  if (has_post_thumbnail($member_id)) {
+                      echo get_the_post_thumbnail($member_id, 'full', ['alt' => get_the_title($member_id)]);
+                  }
+                ?>
+                <?php if (strpos($_SERVER['REQUEST_URI'], '/en/') !== false) { ?>
+                  <p>Youhei Mori</p>
+                <?php } else { ?>
+                  <p>
+                    森 陽平<br>
+                    <span class="config con-l">Youhei Mori</span>
+                  </p>
+                <?php } ?>
               </div><!-- /.member -->
               <div class="img-box obj-fit member topmember-anime-fade u-pc">
-                <img src="<?php echo get_template_directory_uri(); ?>/images/members/members_oomae.jpg" alt="大前 宏輔">
-                <p>
-                  大前 宏輔<br>
-                  <span class="config con-l">Kohsuke Oomae</span>
-                </p>
+                <?php
+                $member_id = 70; 
+                  if (has_post_thumbnail($member_id)) {
+                      echo get_the_post_thumbnail($member_id, 'full', ['alt' => get_the_title($member_id)]);
+                  }
+                ?>
+                <?php if (strpos($_SERVER['REQUEST_URI'], '/en/') !== false) { ?>
+                  <p>Kohsuke Omae</p>
+                <?php } else { ?>
+                  <p>
+                    大前 宏輔<br>
+                    <span class="config con-l">Kohsuke Omae</span>
+                  </p>
+                <?php } ?>
               </div><!-- /.member -->
             </div><!-- /.left -->
             <div class="right">
-              <p>
-                人と人との関わりのなかにこそ、可能性の種がある。<br>
-                メンバーそれぞれの得意とするジャンルの知見を掛け合わせ、<br class="u-pc">
-                新しいプロジェクトを生み出し続けます。<br>
-                プロジェクトごとにユニットを組み発展し続ける可塑的なビジネスチーム。<br>
-                それぞれが持つ好奇心こそが、XBPの活力です。
-              </p>
+              <?php if (strpos($_SERVER['REQUEST_URI'], '/en/') !== false) { ?>
+                <p>
+                  The seeds of possibility lie within human connections.<br>
+                  We continue to generate new projects by combining the expertise of our members in their respective fields.<br>
+                  A flexible business team that evolves by forming units for each project, driven by the curiosity of each member, which is the lifeblood of XBP.
+                </p>
+              <?php } else { ?>
+                <p>
+                  人と人との関わりのなかにこそ、可能性の種がある。<br>
+                  メンバーそれぞれの得意とするジャンルの知見を掛け合わせ、<br class="u-pc">
+                  新しいプロジェクトを生み出し続けます。<br>
+                  プロジェクトごとにユニットを組み発展し続ける可塑的なビジネスチーム。<br>
+                  それぞれが持つ好奇心こそが、XBPの活力です。
+                </p>
+              <?php } ?>
               <div class="btn-wrap">
                 <a href="<?php echo home_url('/members'); ?>" class="btn01">
                   view All
@@ -352,78 +476,100 @@
             </div>
           </div><!-- /.left -->
           <div class="right">
+
+          <?php
+            $args = array(
+              'post_type' => 'post',          // デフォルトの投稿タイプ
+              'posts_per_page' => 3,          // 3件取得
+              'orderby' => 'date',            // 日付順
+              'order' => 'DESC',              // 降順（最新順）
+            );
+            $news_query = new WP_Query($args);
+            if ($news_query->have_posts()) :
+              while ($news_query->have_posts()) : $news_query->the_post();
+          ?>
+
             <dl>
-              <a href="single_news.html">
-                <dt class="config con-l">2025.01.11</dt>
-                <dd>投稿タイトルが入ります。テキストテキストテキストテキスト</dd>
+              <a href="<?php the_permalink(); ?>">
+                <dt class="config con-l"><?php echo get_the_date(); ?></dt>
+                <dd><?php the_title(); ?></dd>
                 <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <circle class="circle-s" cx="10.5" cy="10.5" r="10" stroke="black" />
                   <path class="arrow-f" d="M14 10.5L8.75 13.5311L8.75 7.46891L14 10.5Z" fill="black" />
                 </svg>
               </a>
             </dl>
-            <dl>
-              <a href="single_news.html">
-                <dt class="config con-l">2025.01.11</dt>
-                <dd>投稿タイトルが入ります。テキストテキストテキストテキスト</dd>
-                <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <circle class="circle-s" cx="10.5" cy="10.5" r="10" stroke="black" />
-                  <path class="arrow-f" d="M14 10.5L8.75 13.5311L8.75 7.46891L14 10.5Z" fill="black" />
-                </svg>
-              </a>
-            </dl>
-            <dl>
-              <a href="single_news.html">
-                <dt class="config con-l">2025.01.11</dt>
-                <dd>投稿タイトルが入ります。テキストテキストテキストテキスト</dd>
-                <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <circle class="circle-s" cx="10.5" cy="10.5" r="10" stroke="black" />
-                  <path class="arrow-f" d="M14 10.5L8.75 13.5311L8.75 7.46891L14 10.5Z" fill="black" />
-                </svg>
-              </a>
-            </dl>
+
+            <?php
+                endwhile;
+                wp_reset_postdata(); // クエリのリセット
+            endif;
+            ?>
+            
           </div><!-- /.right -->
         </div>
       </section><!-- /.wrap_news -->
 
 
+      <?php
+      $args = array(
+          'post_type' => 'press',
+          'posts_per_page' => 6,
+          'orderby' => 'date',
+          'order' => 'DESC',
+      );
+      $press_query = new WP_Query($args);
+
+      // プレスリリースの投稿が存在する場合のみセクションを表示
+      if ($press_query->have_posts()) :
+      ?>
+
       <section class="wrap_press">
-        <div class="ttl-wrap">
-          <div class="num"><span class="line"></span>05</div>
-          <h2>Press Release</h2>
+        <div class="ttl-posi u-sp">
+          <div class="ttl-wrap">
+            <div class="num"><span class="line"></span>05</div>
+            <h2>Press Release</h2>
+          </div>
         </div>
         <div class="top-press_swiper">
           <div class="swiper-wrapper">
+
+            <?php
+              while ($press_query->have_posts()) : $press_query->the_post();
+              ?>
+
             <div class="swiper-slide">
-              <a href="single_press.html">
-                <div class="img-box obj-fit"><img src="<?php echo get_template_directory_uri(); ?>/images/common/press_dammy01.jpg" alt=""></div>
+              <a href="<?php the_permalink(); ?>">
+                <div class="img-box obj-fit">
+                  <?php if (has_post_thumbnail()) : ?>
+                    <?php the_post_thumbnail(); ?>
+                  <?php else : ?>
+                    <img src="<?php echo get_template_directory_uri(); ?>/images/common/noimage.jpg" alt="">
+                  <?php endif; ?>
+                </div>
                 <div class="contents">
-                  <div class="cate">#Category</div>
-                  <p>投稿タイトルが入ります。テキストテキストテキストテキストテキストテキストテキストテキスト</p>
-                  <div class="time config con-l">2025.01.11</div>
+                  <div class="cate">
+                    <?php
+                      $terms = get_the_terms(get_the_ID(), 'press-cat');
+                      if ($terms && !is_wp_error($terms)) {
+                        $category_names = array();
+                        foreach ($terms as $term) {
+                          $category_names[] = '#' . $term->name;
+                        }
+                        echo implode('　', $category_names); // 全角スペースで結合
+                      }
+                    ?>
+                  </div>
+                  <p><?php the_title(); ?></p>
+                  <div class="time config con-l"><?php echo get_the_date(); ?></div>
                 </div>
               </a>
             </div>
-            <div class="swiper-slide">
-              <a href="single_press.html">
-                <div class="img-box obj-fit"><img src="<?php echo get_template_directory_uri(); ?>/images/common/press_dammy02.jpg" alt=""></div>
-                <div class="contents">
-                  <div class="cate">#Category</div>
-                  <p>投稿タイトルが入ります。テキストテキストテキストテキストテキストテキストテキストテキスト</p>
-                  <div class="time config con-l">2025.01.11</div>
-                </div>
-              </a>
-            </div>
-            <div class="swiper-slide">
-              <a href="single_press.html">
-                <div class="img-box obj-fit"><img src="<?php echo get_template_directory_uri(); ?>/images/common/press_dammy03.jpg" alt=""></div>
-                <div class="contents">
-                  <div class="cate">#Category</div>
-                  <p>投稿タイトルが入ります。テキストテキストテキストテキストテキストテキストテキストテキスト</p>
-                  <div class="time config con-l">2025.01.11</div>
-                </div>
-              </a>
-            </div>
+
+            <?php
+            endwhile;
+            ?>
+
           </div>
         </div><!-- /.top-press_swiper -->
         <div class="ttl-posi u-pc">
@@ -441,6 +587,11 @@
         </a>
       </section><!-- /.wrap-press -->
 
+      <?php
+      wp_reset_postdata();
+      endif;
+      ?>
+
 
       <section class="wrap-company common-contact">
         <div class="inner">
@@ -450,23 +601,42 @@
               <h2>Company Info</h2>
             </div>
           </div>
-          <table>
-            <tr>
-              <th>会社名</th>
-              <td>株式会社 XBP .Inc</td>
-            </tr>
-            <tr>
-              <th>代表取締役</th>
-              <td>川邊 晃</td>
-            </tr>
-            <tr>
-              <th>所在地</th>
-              <td>
-                〒103-0027<br>
-                東京都中央区日本橋2-3-21 八重洲セントラルビル9F
-              </td>
-            </tr>
-          </table>
+          <?php if (strpos($_SERVER['REQUEST_URI'], '/en/') !== false) { ?>
+            <table>
+              <tr>
+                <th>Company Name</th>
+                <td>XBP .Inc</td>
+              </tr>
+              <tr>
+                <th>Representative Director</th>
+                <td>Akira Kawabe</td>
+              </tr>
+              <tr>
+                <th>Address</th>
+                <td>
+                  Yaesu Central Building 9F, 2-3-21 Nihonbashi, Chuo-ku, Tokyo 103-0027, Japan
+                </td>
+              </tr>
+            </table>
+          <?php } else { ?>
+            <table>
+              <tr>
+                <th>会社名</th>
+                <td>XBP 株式会社</td>
+              </tr>
+              <tr>
+                <th>代表取締役</th>
+                <td>川邊 晃</td>
+              </tr>
+              <tr>
+                <th>所在地</th>
+                <td>
+                  〒103-0027<br>
+                  東京都中央区日本橋2-3-21 八重洲セントラルビル9F
+                </td>
+              </tr>
+            </table>
+          <?php } ?>
           <a href="<?php echo home_url('/company'); ?>" class="btn01">
             view More
             <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">

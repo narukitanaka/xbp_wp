@@ -65,6 +65,20 @@ function create_member_post_type() {
         'menu_icon' => 'dashicons-groups',
         'show_in_rest' => true,
     ));
+
+    // メンバーのカテゴリーを追加
+    register_taxonomy(
+        'member-cat',
+        'member',
+        array(
+            'labels' => array(
+                'name' => 'カテゴリー',
+                'add_new_item' => '新規カテゴリーを追加',
+            ),
+            'hierarchical' => true,
+            'show_in_rest' => true,
+        )
+    );
 }
 add_action('init', 'create_member_post_type');
 
@@ -88,6 +102,7 @@ function get_member_detail() {
     $sns_x = get_field('sns_x', $member_id);
     $sns_facebook = get_field('sns_facebook', $member_id);
     $sns_instagram = get_field('sns_instagram', $member_id);
+    $area_label = get_field('area_label', $member_id);
     $in_charge = get_field('in_charge', $member_id);
     $profile_text = get_field('profile_text', $member_id);
     ob_start();
@@ -111,6 +126,29 @@ function enqueue_member_scripts() {
 add_action('wp_enqueue_scripts', 'enqueue_member_scripts');
 
 
+// プロジェクト用のカスタム投稿タイプを作成
+function create_project_post_type() {
+  register_post_type('project', array(
+    'labels' => array(
+      'name' => 'プロジェクト',
+      'singular_name' => 'プロジェクト',
+      'add_new' => '新規追加',
+      'add_new_item' => '新規プロジェクトを追加',
+      'edit_item' => 'プロジェクトを編集',
+      'view_item' => 'プロジェクトを表示',
+    ),
+    'public' => true,
+    'has_archive' => true,
+    'menu_position' => 5,
+    'supports' => array('title', 'editor', 'thumbnail'),
+    'menu_icon' => 'dashicons-portfolio',
+    'show_in_rest' => true,
+    'rewrite' => array('slug' => 'project'),
+  ));
+}
+add_action('init', 'create_project_post_type');
+
+
 
 // 投稿の自動整形を無効化
 remove_filter('the_content', 'wpautop');
@@ -118,3 +156,32 @@ remove_filter('the_content', 'wpautop');
 remove_filter('the_excerpt', 'wpautop');
 // Contact Form 7の自動整形を無効化
 add_filter('wpcf7_autop_or_not', '__return_false');
+
+
+
+// Bogoの言語スイッチャーの表記を変更
+add_filter('bogo_language_switcher_links', 'bogo_language_link_text_change');
+function bogo_language_link_text_change ($links) {
+  foreach ($links as $key => $value) {
+      if('ja' === $value['locale']){
+          $links[$key]['title'] = 'JP';
+          $links[$key]['native_name'] = 'JP';
+      }
+      if('en_US' === $value['locale']){
+          $links[$key]['title'] = 'USA';
+          $links[$key]['native_name'] = 'EN';
+      }
+  }
+  return $links;
+}
+
+// Bogoのカスタム投稿対応
+function my_localizable_post_types( $localizable ) {
+	$args = array(
+        'public'   => true,
+        '_builtin' => false
+	);
+	$custom_post_types = array_values(get_post_types( $args ,'names','and'));
+    return array_merge($localizable,$custom_post_types);
+}
+add_filter( 'bogo_localizable_post_types', 'my_localizable_post_types', 10, 1 );
